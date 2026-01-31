@@ -66,7 +66,7 @@ r2=r2_score(y,yp)
 print(f"Mean Squared Value: {mse}")
 print(f"Root Mean Squared Value: {rmse}")
 print(f"Mean Absolute Value: {mae}")
-print(f"R Score: {r2}")
+print(f"R² Score: {r2}")
 
 Developed by: Yash Chhajer V
 RegisterNumber: 212225040498
