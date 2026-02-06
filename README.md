@@ -18,55 +18,74 @@ To write a program to predict the marks scored by a student using the simple lin
 /*
 Program to implement the simple linear regression model for predicting the marks scored.
 
-#import libraries
-import pandas as pd
+# Import required libraries
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.metrics import mean_squared_error,mean_absolute_error,r2_score
-
-#read csv file
-df=pd.read_csv('student_scores.csv')
-
-#displaying the content in datafile
-print(f"Dataset:\n{df}")
-
-# Segregating data to variables
-a=list(df['Hours'])
-x=np.array(a).reshape(-1,1)
-b=list(df['Scores'])
-y=np.array(b)
-
-#splitting train and test data
-from sklearn.model_selection import train_test_split
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=42)
-#import linear regression model and fit the model with the data
 from sklearn.linear_model import LinearRegression
-model=LinearRegression()
-model.fit(x_train,y_train)
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
 
-#predicting values
-yp=model.predict(x)
+# ------------------------------
+# Step 1: Create the dataset
+# ------------------------------
+data = {
+    'Hours_Studied': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    'Marks_Scored':  [35, 40, 50, 55, 60, 65, 70, 75, 80, 85]
+}
 
-#plotting the graph for data
-plt.figure(figsize=(7,4))
-plt.scatter(x,y,color='blue',label="Actual Data")
-plt.plot(x,yp, color='red', linewidth=2, label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.title("Simple Linear Regression: Predicting Marks")
+df = pd.DataFrame(data)
+print("Dataset:")
+print(df)
+
+# ------------------------------
+# Step 2: Split into X and Y
+# ------------------------------
+X = df[['Hours_Studied']]   # Feature (2D)
+y = df['Marks_Scored']      # Target (1D)
+
+# ------------------------------
+# Step 3: Split data for training & testing
+# ------------------------------
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# ------------------------------
+# Step 4: Create and train the model
+# ------------------------------
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# ------------------------------
+# Step 5: Make predictions
+# ------------------------------
+y_pred = model.predict(X_test)
+
+# ------------------------------
+# Step 6: Evaluate the model
+# ------------------------------
+print("\nModel Evaluation:")
+print("Slope (m):", model.coef_[0])
+print("Intercept (c):", model.intercept_)
+print("Mean Squared Error:", mean_squared_error(y_test, y_pred))
+print("R² Score:", r2_score(y_test, y_pred))
+
+# ------------------------------
+# Step 7: Visualize results
+# ------------------------------
+plt.scatter(X, y, color='blue', label='Actual Data')
+plt.plot(X, model.predict(X), color='red', label='Regression Line')
+plt.xlabel('Hours Studied')
+plt.ylabel('Marks Scored')
+plt.title('Simple Linear Regression: Hours vs Marks')
 plt.legend()
-plt.grid(True)
 plt.show()
 
-#find mae,mse,rmse
-mse=mean_squared_error(y,yp)
-rmse=np.sqrt(mse)
-mae=mean_absolute_error(y,yp)
-r2=r2_score(y,yp)
-print(f"Mean Squared Value: {mse}")
-print(f"Root Mean Squared Value: {rmse}")
-print(f"Mean Absolute Value: {mae}")
-print(f"R² Score: {r2}")
+# ------------------------------
+# Step 8: Predict for new data
+# ------------------------------
+hours = float(input("\nEnter number of study hours: "))
+predicted_marks = model.predict([[hours]])
+print(f"Predicted Marks for studying {hours} hours = {predicted_marks[0]:.2f}")
 
 Developed by: Yash Chhajer V
 RegisterNumber: 212225040498
@@ -74,9 +93,7 @@ RegisterNumber: 212225040498
 ```
 
 ## Output:
-![alt text](Dataset.png)
-![alt text](<SLR Graph.png>)
-![alt text](Evaluation_metrics.png)
+<img width="473" height="649" alt="Screenshot 2026-02-06 144403" src="https://github.com/user-attachments/assets/b9aec914-53c0-487f-968c-1fb67df3c379" />
 
 ## Result:
 Thus the program to implement the simple linear regression model for predicting the marks scored is written and verified using python programming.
